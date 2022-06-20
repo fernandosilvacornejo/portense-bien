@@ -4,14 +4,10 @@ import { EvilIcons } from '@expo/vector-icons';
 import NumberFormat from 'react-number-format';
 import AnimatedLoader from 'react-native-animated-loader';
 
-import {API_URL} from '@env'
-import {API_TOKEN} from '@env'
-
-
 export default class ProfileTab extends React.Component {
 
-  endpoint = API_URL
-  api_key = API_TOKEN
+  endpoint = ''
+  api_key = ''
 
   state = {
       loading: true,
