@@ -1,0 +1,77 @@
+[
+    {"PK": {"S": "POINTS"}, "SK": {"S": "bruno"}, "points": {"N": "0"}},
+    {"PK": {"S": "POINTS"}, "SK": {"S": "dante"}, "points": {"N": "0"}},
+    {
+        "PK": {"S": "TASKS"},
+        "SK": {"S": "0"},
+        "name": {"S": "Levantarse y vestirse rápido y solito en la mañana"},
+        "bruno": {"S": "True"},
+        "dante": {"S": "True"},
+        "points": {"N": "100"}
+    },
+    {
+        "PK": {"S": "TASKS"},
+        "SK": {"S": "7"},
+        "name": {"S": "Tomar once solo, sin quejarse ni demorarse"},
+        "bruno": {"S": "False"},
+        "dante": {"S": "True"},
+        "points": {"N": "100"}
+    },
+    {
+        "PK": {"S": "TASKS"},
+        "SK": {"S": "2"},
+        "name": {"S": "Almorzar solo, sin quejarse ni demorarse"},
+        "bruno": {"S": "False"},
+        "dante": {"S": "True"},
+        "points": {"N": "100"}
+    },
+    {
+        "PK": {"S": "TASKS"},
+        "SK": {"S": "3"},
+        "name": {"S": "Comerse la ensalada sin quejarse"},
+        "bruno": {"S": "True"},
+        "dante": {"S": "False"},
+        "points": {"N": "100"}
+    },
+    {
+        "PK": {"S": "TASKS"},
+        "SK": {"S": "6"},
+        "name": {"S": "Pasar un día entero sin quejarse"},
+        "bruno": {"S": "False"},
+        "dante": {"S": "True"},
+        "points": {"N": "200"}
+    },
+    {
+        "PK": {"S": "TASKS"},
+        "SK": {"S": "8"},
+        "name": {"S": "Bañarse y vestirse solo en la noche"},
+        "bruno": {"S": "True"},
+        "dante": {"S": "False"},
+        "points": {"N": "200"}
+    },
+    {
+        "PK": {"S": "TASKS"},
+        "SK": {"S": "5"},
+        "name": {"S": "Pasar un día sin pelear con mi hermano"},
+        "bruno": {"S": "True"},
+        "dante": {"S": "True"},
+        "points": {"N": "200"}
+    },
+    {
+        "PK": {"S": "TASKS"},
+        "SK": {"S": "1"},
+        "name": {"S": "Hacer la cama"},
+        "bruno": {"S": "True"},
+        "dante": {"S": "False"},
+        "points": {"N": "200"}
+    },
+    {
+        "PK": {"S": "TASKS"},
+        "SK": {"S": "4"},
+        "name": {"S": "Abrocharse los zapatos solo"},
+        "bruno": {"S": "False"},
+        "dante": {"S": "True"},
+        "points": {"N": "100"}
+    }
+
+]

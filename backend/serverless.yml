@@ -1,0 +1,77 @@
+---
+service: puntos-por-portarse-bien
+frameworkVersion: '3'
+
+# Stage parameters
+params:
+  default:
+    project-name: puntos-por-portarse-bien
+
+provider:
+  # Generales
+  name: aws
+  stage: dev # default
+  region: us-east-1
+  stackName: ${param:project-name}-backend
+  runtime: python3.9
+  logRetentionInDays: 14
+  architecture: arm64
+  # API
+  apiGateway:
+    apiKeys:
+      - name: ${param:project-name}
+    usagePlan:
+      quota:
+        limit: 1000
+        period: MONTH
+      throttle:
+        burstLimit: 5
+        rateLimit: 10
+  # IAM
+  iam:
+    role:
+      managedPolicies:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+          Resource: "arn:aws:dynamodb:${aws:region}:${aws:accountId}:table/${param:project-name}"
+functions:
+  backend:
+    handler: main.handler
+    memorySize: 128
+    timeout: 10
+    name: puntos-por-portarse-bien-backend
+    description: Puntos por portarse bien - Backend
+    environment:
+      DYNAMODB_TABLE_NAME: ${param:project-name}
+    events:
+      - http:
+          path: /data
+          method: get
+          private: true
+      - http:
+          path: /event
+          method: post
+          private: true
+resources:
+  Resources:
+    BackendTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${param:project-name}
+        AttributeDefinitions:
+          - AttributeName: PK
+            AttributeType: S
+          - AttributeName: SK
+            AttributeType: S
+        KeySchema:
+          - AttributeName: PK
+            KeyType: HASH
+          - AttributeName: SK
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST

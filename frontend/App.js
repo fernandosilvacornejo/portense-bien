@@ -1,18 +1,10 @@
+import "./ignoreWarnings";
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from "react";
 import { View, Text, StyleSheet, useWindowDimensions } from 'react-native';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import ProfileTab from './ProfileTab';
 
-global.tasks = [
-  {'name': 'Tarea 1', 'points': 100},
-  {'name': 'Tarea 2', 'points': 300}
-]
-
-global.points = {
-  'bruno': 3600,
-  'dante': 1200
-}
 
 export default function App() {
 
@@ -46,5 +38,5 @@ const renderTabBar = props => (
   />
 );
 const renderScene = ({ route }) => {
-  return <ProfileTab name={route.key} profilePoints={global.points}/>
+  return <ProfileTab name={route.key}/>
 }
