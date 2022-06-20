@@ -22,7 +22,7 @@ export default function App() {
         renderScene={renderScene}
         onIndexChange={setIndex}
         initialLayout={{ width: layout.width }}
-        style={{ paddingTop: 40 }}
+        style={{ paddingTop: 0 }}
         renderTabBar={renderTabBar}
       />
   );
