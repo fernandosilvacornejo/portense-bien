@@ -43,7 +43,7 @@ def _disable_task(task_name):
         ExpressionAttributeValues={":pk": {"S": "TASKS"}, ":tn": {"S": task_name}},
         ExpressionAttributeNames={"#name": "name"},
     )["Items"][0]
-    disabled_until = (datetime.today() + timedelta(days=1)).strftime("%Y%m%d0600")
+    disabled_until = (datetime.today() + timedelta(hours=19)).strftime("%Y%m%d0600")
     task["disabled_until"] = {"S": disabled_until}
     ddb.put_item(TableName=table_name, Item=task)
 
