@@ -1,9 +1,9 @@
 import "./ignoreWarnings";
-import { StatusBar } from 'expo-status-bar';
 import React, { useState } from "react";
 import { View, Text, StyleSheet, useWindowDimensions } from 'react-native';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import ProfileTab from './ProfileTab';
+import Constants from 'expo-constants';
 
 
 export default function App() {
@@ -22,7 +22,7 @@ export default function App() {
         renderScene={renderScene}
         onIndexChange={setIndex}
         initialLayout={{ width: layout.width }}
-        style={{ paddingTop: 0 }}
+        style={{ paddingTop: Constants.statusBarHeight }}
         renderTabBar={renderTabBar}
       />
   );

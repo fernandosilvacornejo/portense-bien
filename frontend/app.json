@@ -10,7 +10,11 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#fef7db"
+      "backgroundColor": "#ffffff"
+    },
+    "androidStatusBar": {
+      "backgroundColor": "#C2185B",
+      "translucent": false
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -25,7 +29,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#ffffff"
       },
       "package": "puntosporportarsebien.apk"
     },

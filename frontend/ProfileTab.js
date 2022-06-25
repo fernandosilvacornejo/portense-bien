@@ -3,18 +3,20 @@ import { Image, ScrollView, StyleSheet, Text, View, TouchableOpacity} from "reac
 import { EvilIcons } from '@expo/vector-icons';
 import NumberFormat from 'react-number-format';
 import AnimatedLoader from 'react-native-animated-loader';
+import { LinearGradient } from 'expo-linear-gradient';
+import * as Progress from 'react-native-progress';
 
 export default class ProfileTab extends React.Component {
 
-  endpoint = ''
-  api_key = ''
+  endpoint = process.env.API_ENDPOINT
+  api_key = process.env.API_KEY
 
   state = {
       loading: true,
   }
 
   componentDidMount() {
-    fetch(this.endpoint + "data", {
+    fetch(this.endpoint + "/data", {
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -26,9 +28,13 @@ export default class ProfileTab extends React.Component {
       .then((responseJson) => {
         this.setState({
           loading: false,
-          points: responseJson['points'][this.props.name],
-          tasks: responseJson['tasks'].filter((t) => t[this.props.name] == "True")
+          points: responseJson['profiles'][this.props.name]['points'],
+          prize_name: responseJson['profiles'][this.props.name]['prize']['name'],
+          prize_points: responseJson['profiles'][this.props.name]['prize']['points'],
+          tasks: responseJson['tasks'][this.props.name]
         })
+        progress = this.state.points / this.state.prize_points
+        this.setState({prize_progress: progress})
       })
       .catch(error => console.log(error))
   }
@@ -38,7 +44,7 @@ export default class ProfileTab extends React.Component {
     this.setState({
       updating: true
     })
-    fetch(this.endpoint + 'event', {
+    fetch(this.endpoint + '/event', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -68,23 +74,71 @@ export default class ProfileTab extends React.Component {
   render() {
     images = {
       'bruno': require('./assets/bruno.png'),
-      'dante': require('./assets/dante.png')
+      'bruno_prize': require('./assets/bruno-prize.png'),
+      'dante': require('./assets/dante.png'),
+      'dante_prize': require('./assets/dante-prize.png')
     }
+
     return (
       <View style={styles.profileContainer}>
-        <View style={{flex: 0.4, width: '100%', alignItems: 'center'}}>
-          <Image style={styles.profilePicture} source={images[this.props.name]}/>
-            <NumberFormat
-                    value={this.state.points}
-                    displayType="text"
-                    thousandSeparator="."
-                    decimalSeparator=","
-                    prefix="⭐"
-                    renderText=
-                      {(value) => <Text style={styles.profilePoints}>{value}</Text>}
+
+        <View style={styles.firstRowContainer}>
+
+          <LinearGradient style={styles.pictureContainer}
+            colors={['goldenrod', 'yellow', 'gold', 'navajowhite', 'yellow', 'goldenrod']}
+            start={{ x: 0.0, y: 1.0 }} end={{ x: 1.0, y: 1.0 }}>
+              <Image style={styles.profilePicture} source={images[this.props.name]}/>
+          </LinearGradient>
+
+          <View style={styles.prizeContainer}>
+
+            <LinearGradient
+              style={styles.prizePictureContainer}
+              colors={['#ED0024', '#BB061C', '#f08080', '#890D15']}
+              start={{ x: 0.0, y: 1.0 }}
+              end={{ x: 1.0, y: 1.0 }}>
+                <Image style={styles.prizePicture} source={images[this.props.name + '_prize']}/>
+            </LinearGradient>
+
+            <View style={styles.prizeDescription}>
+              <Text style={styles.prizeName}>{this.state.prize_name}</Text>
+              <NumberFormat
+                value={this.state.prize_points}
+                displayType="text"
+                thousandSeparator="."
+                decimalSeparator=","
+                prefix="⭐"
+                renderText=
+                  {(value) => <Text style={styles.prizeName}>{value}</Text>}
+              />
+            </View>
+
+            <Progress.Bar
+              style={styles.progressBar}
+              progress={this.state.prize_progress}
+              animated= 'False'
+              color='lightcoral'
+              borderColor='crimson'
+              width='70'
             />
+
+          </View>
+
         </View>
-        <View style={{flex: 0.6, width: '100%', alignItems: 'center'}}>
+
+        <View style={styles.secondRowContainer}>
+          <NumberFormat
+            value={this.state.points}
+            displayType="text"
+            thousandSeparator="."
+            decimalSeparator=","
+            prefix="⭐"
+            renderText=
+              {(value) => <Text style={styles.profilePoints}>{value}</Text>}
+          />
+        </View>
+
+        <View style={styles.thirdRowContainer}>
           {(() => {
             if (this.state.loading) {
               return (
@@ -115,18 +169,19 @@ export default class ProfileTab extends React.Component {
               }
               if (this.state.tasks.length) {
                 return (
-                  <ScrollView style={styles.scrollView}>
+                  <ScrollView>
                   {
                     this.state.tasks.map((task, index) => {
                       const points = task['points']
                       const name = task['name']
                       return (
                         <View key={index} style={styles.mainTaskContainer}>
-                          <View style={styles.container}>
-                              <View style={styles.taskContainer}>
+                          <View style={styles.taskContainer}>
+                              <View style={styles.taskNameContainer}>
                                   <Text style={styles.task}>{name}</Text>
                               </View>
-                              <View style={styles.pointsContainer}>
+                              <View style={styles.taskPointsContainer}>
+                                <TouchableOpacity style={styles.taskPointsContainer} onPress={() => this.updatePoints(points, name)}>
                                     <NumberFormat
                                       value={points}
                                       displayType="text"
@@ -136,7 +191,7 @@ export default class ProfileTab extends React.Component {
                                       renderText=
                                         {(value) => <Text style={styles.taskPoints}>{value}</Text>}
                                     />
-                                  <TouchableOpacity onPress={() => this.updatePoints(points, name)}>
+
                                       <EvilIcons style={styles.complete} name="plus" size={35} />
                                   </TouchableOpacity>
                               </View>
@@ -158,28 +213,89 @@ export default class ProfileTab extends React.Component {
   }
 }
 const styles = StyleSheet.create({
+    // Main container
     profileContainer: {
       flex: 1,
-      paddingTop: 20,
       backgroundColor: 'whitesmoke',
       alignItems: 'center',
       justifyContent: 'center',
       width: '100%'
     },
-    profilePicture: {
-        width: 200,
-        height: 200,
-        borderRadius: 200 / 2
+    // Row containers
+    firstRowContainer: {
+      flex: 3,
+      width: '100%',
+      flexDirection: 'row',
+      alignItems: 'center',
     },
+    secondRowContainer: {
+      flex:1,
+    },
+    thirdRowContainer: {
+      flex: 6,
+      width: '100%',
+      alignItems: 'center'
+    },
+    // Profile picture
+    pictureContainer: {
+      flex: 5,
+      marginLeft: 10,
+      marginRight: 5,
+      marginTop: 10,
+      height: 190,
+      borderRadius: 30,
+      alignItems: 'center'
+    },
+    profilePicture: {
+        width: 190,
+        height: 180,
+        margin: 5,
+        borderRadius: 30
+    },
+    // Prize
+    prizeContainer: {
+      flex: 4,
+      flexDirection: 'column',
+      alignItems: 'center',
+      height: 170,
+      marginRight: 10,
+      marginTop: 20
+    },
+    prizePictureContainer: {
+      flex: 3,
+      borderRadius: 12,
+      alignItems: 'center'
+    },
+    prizePicture: {
+        width: 100,
+        height: 110,
+        margin: 5,
+        borderRadius: 10
+    },
+    prizeDescription: {
+      flex:1,
+    },
+    prizeName: {
+      paddingTop: 3,
+      fontWeight: 'bold',
+      fontSize: 12,
+      color: 'crimson',
+      textAlign: 'center',
+    },
+    progressBar: {
+      width: 70,
+      marginLeft: 5
+    },
+    // Profile points
     profilePoints: {
       fontWeight: 'bold',
       fontSize: 30,
-      padding: 10
     },
+    // Tasks
     mainTaskContainer: {
         flexDirection: 'row',
     },
-    container: {
+    taskContainer: {
         flexDirection: 'row',
         backgroundColor: 'white',
         marginHorizontal: 20,
@@ -191,27 +307,27 @@ const styles = StyleSheet.create({
         minHeight: 50
 
     },
-    taskContainer: {
+    taskNameContainer: {
       margin: 10,
       marginLeft: 20,
       flex: 5,
       justifyContent: 'center'
     },
-    task: {
-      color: 'darkgoldenrod',
-      fontSize: 16,
-    },
-    pointsContainer: {
-        flex: 2,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'goldenrod'
-    },
-    taskPoints: {
-        color: 'lightgoldenrodyellow',
-        fontSize: 15,
-        padding: 5
-    },
+      task: {
+        color: 'darkgoldenrod',
+        fontSize: 16,
+      },
+        taskPointsContainer: {
+            flex: 2,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'goldenrod'
+        },
+          taskPoints: {
+              color: 'lightgoldenrodyellow',
+              fontSize: 15,
+              padding: 5
+          },
     complete: {
       color: "lightgoldenrodyellow",
       paddingBottom: 10,

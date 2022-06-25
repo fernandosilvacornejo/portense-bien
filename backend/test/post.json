@@ -40,6 +40,6 @@
     "domainName": "testPrefix.testDomainName",
     "apiId": "220reh1j01"
   },
-  "body": "{\"task\": \"Hacer la cama\", \"points\": \"0\", \"profile\": \"bruno\"}",
+  "body": "{\"task\": \"Hacer la cama\", \"points\": \"100\", \"profile\": \"bruno\"}",
   "isBase64Encoded": "False"
 }

@@ -14,7 +14,7 @@ def post(data):
     task_name = data["task"]
 
     _log_event(profile, task_name, new_points)
-    _disable_task(task_name)
+    _disable_task(profile, task_name)
     updated_points = _calculate_new_profile_points(profile, new_points)
     _update_points(profile, updated_points)
 
@@ -34,7 +34,7 @@ def _log_event(profile, task_name, new_points):
     )
 
 
-def _disable_task(task_name):
+def _disable_task(profile, task_name):
     """Temporarily disable task."""
     task = ddb.query(
         TableName=table_name,
@@ -45,6 +45,7 @@ def _disable_task(task_name):
     )["Items"][0]
     disabled_until = (datetime.today() + timedelta(hours=19)).strftime("%Y%m%d0600")
     task["disabled_until"] = {"S": disabled_until}
+    task[profile] = {"S": "disabled"}
     ddb.put_item(TableName=table_name, Item=task)
 
 
@@ -53,7 +54,10 @@ def _calculate_new_profile_points(profile, new_points):
     current_points = ddb.query(
         TableName=table_name,
         KeyConditionExpression="PK = :pk and SK = :sk",
-        ExpressionAttributeValues={":pk": {"S": "POINTS"}, ":sk": {"S": profile}},
+        ExpressionAttributeValues={
+            ":pk": {"S": "PROFILE"},
+            ":sk": {"S": f"{profile}#points"},
+        },
     )["Items"][0]["points"]["N"]
     updated_points = int(current_points) + int(new_points)
     return str(updated_points)
@@ -64,8 +68,8 @@ def _update_points(profile, updated_points):
     ddb.put_item(
         TableName=table_name,
         Item={
-            "PK": {"S": "POINTS"},
-            "SK": {"S": profile},
+            "PK": {"S": "PROFILE"},
+            "SK": {"S": f"{profile}#points"},
             "points": {"N": updated_points},
         },
     )

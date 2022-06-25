@@ -1,0 +1,13 @@
+{
+  "build": {
+    "production": {
+      "env": {
+        "API_ENDPOINT": "$API_ENDPOINT"
+        "API_KEY": "$API_KEY"
+      },
+      "android": {
+        "buildType": "apk"
+      }
+    }
+  }
+}

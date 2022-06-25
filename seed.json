@@ -1,6 +1,9 @@
 [
-    {"PK": {"S": "POINTS"}, "SK": {"S": "bruno"}, "points": {"N": "0"}},
-    {"PK": {"S": "POINTS"}, "SK": {"S": "dante"}, "points": {"N": "0"}},
+    {"PK": {"S": "PROFILE"}, "SK": {"S": "bruno#points"}, "points": {"N": "0"}},
+    {"PK": {"S": "PROFILE"}, "SK": {"S": "dante#points"}, "points": {"N": "0"}},
+    {"PK": {"S": "PROFILE"}, "SK": {"S": "bruno#prize"}, "points": {"N": "15000"},"name": {"S": "Lanzador Beyblade"}},
+    {"PK": {"S": "PROFILE"}, "SK": {"S": "dante#prize"}, "points": {"N": "15000"},"name": {"S": "Lucario con Pokebola"}},
+
     {
         "PK": {"S": "TASKS"},
         "SK": {"S": "0"},

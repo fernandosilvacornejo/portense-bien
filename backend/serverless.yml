@@ -6,6 +6,11 @@ frameworkVersion: '3'
 params:
   default:
     project-name: portense-bien
+    table-name: ${param:project-name}
+    api-key-name: ${param:project-name}
+  test:
+    table-name: ${param:project-name}-${sls:stage}
+    api-key-name: ${param:project-name}-${sls:stage}
 
 provider:
   # Generales
@@ -18,7 +23,7 @@ provider:
   # API
   apiGateway:
     apiKeys:
-      - name: ${param:project-name}
+      - name: ${param:api-key-name}
     usagePlan:
       quota:
         limit: 1000
@@ -38,7 +43,7 @@ provider:
             - dynamodb:Scan
             - dynamodb:GetItem
             - dynamodb:PutItem
-          Resource: "arn:aws:dynamodb:${aws:region}:${aws:accountId}:table/${param:project-name}"
+          Resource: "arn:aws:dynamodb:${aws:region}:${aws:accountId}:table/${param:table-name}"
 functions:
   backend:
     handler: main.handler
@@ -46,7 +51,8 @@ functions:
     timeout: 10
     description: Portense Bien - Backend
     environment:
-      DYNAMODB_TABLE_NAME: ${param:project-name}
+      DYNAMODB_TABLE_NAME: ${param:table-name}
+      ENVIRONMENT: ${sls:stage}
     events:
       - http:
           path: /data
@@ -60,8 +66,9 @@ resources:
   Resources:
     BackendTable:
       Type: AWS::DynamoDB::Table
+      DeletionPolicy: Retain
       Properties:
-        TableName: ${param:project-name}
+        TableName: ${param:table-name}
         AttributeDefinitions:
           - AttributeName: PK
             AttributeType: S
