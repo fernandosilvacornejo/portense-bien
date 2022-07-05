@@ -40,15 +40,17 @@ def _get_tasks():
     )["Items"]
     tasks = {"bruno": [], "dante": []}
     for item in result:
+        # Reactivacion de item si corresponde
         if "disabled_until" in item:
-            if item["disabled_until"]["S"] > datetime.now().strftime("%Y%m%d%H%M"):
-                continue
-            del item["disabled_until"]
-            for profile in ["bruno", "dante"]:
-                item[profile]["S"] = (
-                    "True" if item[profile]["S"] == "disabled" else item[profile]["S"]
-                )
-            ddb.put_item(TableName=table_name, Item=item)
+            if item["disabled_until"]["S"] < datetime.now().strftime("%Y%m%d%H%M"):
+                del item["disabled_until"]
+                for profile in ["bruno", "dante"]:
+                    item[profile]["S"] = (
+                        "True"
+                        if item[profile]["S"] == "disabled"
+                        else item[profile]["S"]
+                    )
+                ddb.put_item(TableName=table_name, Item=item)
         for profile in ["bruno", "dante"]:
             if item[profile]["S"] == "True":
                 tasks[profile].append(

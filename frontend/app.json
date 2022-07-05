@@ -10,10 +10,10 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000000"
     },
     "androidStatusBar": {
-      "backgroundColor": "#C2185B",
+      "backgroundColor": "#000000",
       "translucent": false
     },
     "updates": {

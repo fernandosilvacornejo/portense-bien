@@ -71,4 +71,5 @@ os.system(f"echo 'API_ENDPOINT={api_endpoint}' >> frontend/.env")
 # Build frontend APK
 if FRONTEND:
     logging.warning("Construyendo frontend")
-    os.system("cd frontend && expo eject && eas build -p android --profile preview")
+    os.system("cd frontend && expo eject && eas build -p android")
+    # Finalmente, hacer adb install xxx.apk

@@ -1,28 +1,23 @@
 [
-    {"PK": {"S": "PROFILE"}, "SK": {"S": "bruno#points"}, "points": {"N": "0"}},
-    {"PK": {"S": "PROFILE"}, "SK": {"S": "dante#points"}, "points": {"N": "0"}},
-    {"PK": {"S": "PROFILE"}, "SK": {"S": "bruno#prize"}, "points": {"N": "15000"},"name": {"S": "Lanzador Beyblade"}},
-    {"PK": {"S": "PROFILE"}, "SK": {"S": "dante#prize"}, "points": {"N": "15000"},"name": {"S": "Lucario con Pokebola"}},
-
     {
         "PK": {"S": "TASKS"},
-        "SK": {"S": "0"},
-        "name": {"S": "Levantarse y vestirse rápido y solito en la mañana"},
+        "SK": {"S": "00"},
+        "name": {"S": "Levantarse y vestirse rápido y solito"},
         "bruno": {"S": "True"},
         "dante": {"S": "True"},
         "points": {"N": "100"}
     },
     {
         "PK": {"S": "TASKS"},
-        "SK": {"S": "7"},
-        "name": {"S": "Tomar once solo, sin quejarse ni demorarse"},
-        "bruno": {"S": "False"},
-        "dante": {"S": "True"},
-        "points": {"N": "100"}
-    },
+        "SK": {"S": "01"},
+        "name": {"S": "Hacer la cama"},
+        "bruno": {"S": "True"},
+        "dante": {"S": "False"},
+        "points": {"N": "200"}
+    },  
     {
         "PK": {"S": "TASKS"},
-        "SK": {"S": "2"},
+        "SK": {"S": "02"},
         "name": {"S": "Almorzar solo, sin quejarse ni demorarse"},
         "bruno": {"S": "False"},
         "dante": {"S": "True"},
@@ -30,31 +25,23 @@
     },
     {
         "PK": {"S": "TASKS"},
-        "SK": {"S": "3"},
-        "name": {"S": "Comerse la ensalada sin quejarse"},
+        "SK": {"S": "03"},
+        "name": {"S": "Comerse la ensalada sin quejarse ó Llevar a la cocina termo y potes del colegio"},
         "bruno": {"S": "True"},
         "dante": {"S": "False"},
         "points": {"N": "100"}
     },
     {
         "PK": {"S": "TASKS"},
-        "SK": {"S": "6"},
-        "name": {"S": "Pasar un día entero sin quejarse"},
+        "SK": {"S": "04"},
+        "name": {"S": "Abrocharse los zapatos solo"},
         "bruno": {"S": "False"},
         "dante": {"S": "True"},
-        "points": {"N": "200"}
+        "points": {"N": "100"}
     },
     {
         "PK": {"S": "TASKS"},
-        "SK": {"S": "8"},
-        "name": {"S": "Bañarse y vestirse solo en la noche"},
-        "bruno": {"S": "True"},
-        "dante": {"S": "False"},
-        "points": {"N": "200"}
-    },
-    {
-        "PK": {"S": "TASKS"},
-        "SK": {"S": "5"},
+        "SK": {"S": "05"},
         "name": {"S": "Pasar un día sin pelear con mi hermano"},
         "bruno": {"S": "True"},
         "dante": {"S": "True"},
@@ -62,19 +49,58 @@
     },
     {
         "PK": {"S": "TASKS"},
-        "SK": {"S": "1"},
-        "name": {"S": "Hacer la cama"},
+        "SK": {"S": "06"},
+        "name": {"S": "Pasar un día entero sin quejarse"},
+        "bruno": {"S": "False"},
+        "dante": {"S": "True"},
+        "points": {"N": "200"}
+    },
+    {
+        "PK": {"S": "TASKS"},
+        "SK": {"S": "07"},
+        "name": {"S": "Tomar once solo, sin quejarse ni demorarse"},
+        "bruno": {"S": "False"},
+        "dante": {"S": "True"},
+        "points": {"N": "100"}
+    },
+    {
+        "PK": {"S": "TASKS"},
+        "SK": {"S": "08"},
+        "name": {"S": "Bañarse y vestirse solo"},
         "bruno": {"S": "True"},
         "dante": {"S": "False"},
         "points": {"N": "200"}
     },
     {
         "PK": {"S": "TASKS"},
-        "SK": {"S": "4"},
-        "name": {"S": "Abrocharse los zapatos solo"},
-        "bruno": {"S": "False"},
+        "SK": {"S": "09"},
+        "name": {"S": "Lavarse los dientes y acostarse solito"},
+        "bruno": {"S": "True"},
         "dante": {"S": "True"},
         "points": {"N": "100"}
+    },
+    {
+        "PK": {"S": "TASKS"},
+        "SK": {"S": "10"},
+        "name": {"S": "Escuchar a los papás decir garabatos"},
+        "bruno": {"S": "True"},
+        "dante": {"S": "True"},
+        "points": {"N": "100"}
+    },
+    {
+        "PK": {"S": "TASKS"},
+        "SK": {"S": "11"},
+        "name": {"S": "Leer 30 minutos y resumir lo leído"},
+        "bruno": {"S": "True"},
+        "dante": {"S": "False"},
+        "points": {"N": "200"}
+    },
+    {
+        "PK": {"S": "TASKS"},
+        "SK": {"S": "12"},
+        "name": {"S": "Pasar un día sin pantalla"},
+        "bruno": {"S": "False"},
+        "dante": {"S": "True"},
+        "points": {"N": "200"}
     }
-
 ]

@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, useWindowDimensions } from 'react-native';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import ProfileTab from './ProfileTab';
-import Constants from 'expo-constants';
 
 
 export default function App() {
@@ -22,7 +21,7 @@ export default function App() {
         renderScene={renderScene}
         onIndexChange={setIndex}
         initialLayout={{ width: layout.width }}
-        style={{ paddingTop: Constants.statusBarHeight }}
+        style={{ paddingTop: 0 }}
         renderTabBar={renderTabBar}
       />
   );

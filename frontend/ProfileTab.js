@@ -59,13 +59,18 @@ export default class ProfileTab extends React.Component {
       })
       .then(response => response.text())
       .then((responseText) => {
-          console.log(responseText)
           setTimeout(() => {
             this.setState({
               updating: false,
               points: responseText,
               tasks: this.state.tasks.filter((list) => list['name'] != taskName)
             })
+            if (this.state.points >= this.state.prize_points) {
+              progress = 1
+            } else {
+              progress = this.state.points / this.state.prize_points
+            }
+            this.setState({prize_progress: progress})
           }, 1000)
       })
       .catch(error => console.log(error))
@@ -149,64 +154,64 @@ export default class ProfileTab extends React.Component {
                   animationStyle={styles.loader}
                   speed={1}
                 >
-                  <Text>Cargando tareas...</Text>
+                  <Text>Cargando misiones...</Text>
                 </AnimatedLoader>
               )
             }
-              if (this.state.updating) {
-                return (
-                  <AnimatedLoader
-                    visible={true}
-                    overlayColor="rgba(255,255,255,0.75)"
-                    source={require("./loaders/updating.json")}
-                    animationStyle={styles.loader}
-                    speed={1}
-                  >
-                    <Text>¡Actualizando tus puntos!</Text>
-                  </AnimatedLoader>
-
-                )
-              }
-              if (this.state.tasks.length) {
-                return (
-                  <ScrollView>
-                  {
-                    this.state.tasks.map((task, index) => {
-                      const points = task['points']
-                      const name = task['name']
-                      return (
-                        <View key={index} style={styles.mainTaskContainer}>
-                          <View style={styles.taskContainer}>
-                              <View style={styles.taskNameContainer}>
-                                  <Text style={styles.task}>{name}</Text>
-                              </View>
-                              <View style={styles.taskPointsContainer}>
-                                <TouchableOpacity style={styles.taskPointsContainer} onPress={() => this.updatePoints(points, name)}>
-                                    <NumberFormat
-                                      value={points}
-                                      displayType="text"
-                                      thousandSeparator="."
-                                      decimalSeparator=","
-                                      suffix=" pts"
-                                      renderText=
-                                        {(value) => <Text style={styles.taskPoints}>{value}</Text>}
-                                    />
-
-                                      <EvilIcons style={styles.complete} name="plus" size={35} />
-                                  </TouchableOpacity>
-                              </View>
-                          </View>
-                        </View>
-                      );
-                    })
-                  }
-                  </ScrollView>
-                )
-              }
+            if (this.state.updating) {
               return (
-                <Text style={styles.emptyList}>¡Ya cumpliste tus objetivos del día!</Text>
+                <AnimatedLoader
+                  visible={true}
+                  overlayColor="rgba(255,255,255,0.75)"
+                  source={require("./loaders/updating.json")}
+                  animationStyle={styles.loader}
+                  speed={1}
+                >
+                  <Text>¡Actualizando tus puntos!</Text>
+                </AnimatedLoader>
+
               )
-            })()}
+            }
+            if (this.state.tasks.length) {
+              return (
+                <ScrollView>
+                {
+                  this.state.tasks.map((task, index) => {
+                    const points = task['points']
+                    const name = task['name']
+                    return (
+                      <View key={index} style={styles.mainTaskContainer}>
+                        <View style={styles.taskContainer}>
+                            <View style={styles.taskNameContainer}>
+                                <Text style={styles.task}>{name}</Text>
+                            </View>
+                            <View style={styles.taskPointsContainer}>
+                              <TouchableOpacity style={styles.taskPointsContainer} onPress={() => this.updatePoints(points, name)}>
+                                  <NumberFormat
+                                    value={points}
+                                    displayType="text"
+                                    thousandSeparator="."
+                                    decimalSeparator=","
+                                    suffix=" pts"
+                                    renderText=
+                                      {(value) => <Text style={styles.taskPoints}>{value}</Text>}
+                                  />
+
+                                    <EvilIcons style={styles.complete} name="plus" size={35} />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                      </View>
+                    );
+                  })
+                }
+                </ScrollView>
+              )
+            }
+            return (
+              <Text style={styles.emptyList}>¡Ya cumpliste tus objetivos del día!</Text>
+            )
+          })()}
         </View>
       </View>
     );
@@ -247,7 +252,7 @@ const styles = StyleSheet.create({
       alignItems: 'center'
     },
     profilePicture: {
-        width: 190,
+        width: 175,
         height: 180,
         margin: 5,
         borderRadius: 30
