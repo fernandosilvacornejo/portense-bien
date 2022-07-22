@@ -175,6 +175,5 @@ cython_debug/
 
 .serverless
 frontend/eas.json
-frontend/android/*
 frontend/ios/*
 .env
