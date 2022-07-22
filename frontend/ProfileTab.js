@@ -4,12 +4,14 @@ import { EvilIcons } from '@expo/vector-icons';
 import NumberFormat from 'react-number-format';
 import AnimatedLoader from 'react-native-animated-loader';
 import { LinearGradient } from 'expo-linear-gradient';
+import * as Crypto from 'expo-crypto';
 import * as Progress from 'react-native-progress';
 
 export default class ProfileTab extends React.Component {
 
   endpoint = process.env.API_ENDPOINT
   api_key = process.env.API_KEY
+  bucket_url = 'https://' + process.env.BUCKET_NAME + '.s3.amazonaws.com/'
 
   state = {
       loading: true,
@@ -31,9 +33,11 @@ export default class ProfileTab extends React.Component {
           points: responseJson['profiles'][this.props.name]['points'],
           prize_name: responseJson['profiles'][this.props.name]['prize']['name'],
           prize_points: responseJson['profiles'][this.props.name]['prize']['points'],
+          prize_image: this.bucket_url + responseJson['profiles'][this.props.name]['prize']['image_filename'],
+          profile_image: this.bucket_url + responseJson['profiles'][this.props.name]['image_filename'],
           tasks: responseJson['tasks'][this.props.name]
         })
-        progress = this.state.points / this.state.prize_points
+        let progress = this.state.points / this.state.prize_points
         this.setState({prize_progress: progress})
       })
       .catch(error => console.log(error))
@@ -77,12 +81,6 @@ export default class ProfileTab extends React.Component {
   }
 
   render() {
-    images = {
-      'bruno': require('./assets/bruno.png'),
-      'bruno_prize': require('./assets/bruno-prize.png'),
-      'dante': require('./assets/dante.png'),
-      'dante_prize': require('./assets/dante-prize.png')
-    }
 
     return (
       <View style={styles.profileContainer}>
@@ -92,7 +90,7 @@ export default class ProfileTab extends React.Component {
           <LinearGradient style={styles.pictureContainer}
             colors={['goldenrod', 'yellow', 'gold', 'navajowhite', 'yellow', 'goldenrod']}
             start={{ x: 0.0, y: 1.0 }} end={{ x: 1.0, y: 1.0 }}>
-              <Image style={styles.profilePicture} source={images[this.props.name]}/>
+              <Image style={styles.profilePicture} source={{uri: this.state.profile_image}}/>
           </LinearGradient>
 
           <View style={styles.prizeContainer}>
@@ -102,7 +100,7 @@ export default class ProfileTab extends React.Component {
               colors={['#ED0024', '#BB061C', '#f08080', '#890D15']}
               start={{ x: 0.0, y: 1.0 }}
               end={{ x: 1.0, y: 1.0 }}>
-                <Image style={styles.prizePicture} source={images[this.props.name + '_prize']}/>
+                <Image style={styles.prizePicture} source={{uri: this.state.prize_image}}/>
             </LinearGradient>
 
             <View style={styles.prizeDescription}>
@@ -121,10 +119,10 @@ export default class ProfileTab extends React.Component {
             <Progress.Bar
               style={styles.progressBar}
               progress={this.state.prize_progress}
-              animated= 'False'
+              animated= {false}
               color='lightcoral'
               borderColor='crimson'
-              width='70'
+              width={70}
             />
 
           </View>

@@ -4,6 +4,7 @@ import boto3
 import json
 import argparse
 import logging
+import hashlib
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -62,14 +63,27 @@ api_keys = boto3.client("apigateway").get_api_keys(
 api_key = [k["value"] for k in api_keys if k["name"] == api_key_name][0]
 
 # Update .env and eas.json
+bucket_name = f"portense-bien-assets-{STAGE}"
 os.system(
-    f"API_KEY={api_key} API_ENDPOINT={api_endpoint} envsubst < frontend/eas.json.template > frontend/eas.json"
+    f"API_KEY={api_key} API_ENDPOINT={api_endpoint} BUCKET_NAME={bucket_name} envsubst < frontend/eas.json.template > frontend/eas.json"
 )
 os.system(f"echo 'API_KEY={api_key}' > frontend/.env")
 os.system(f"echo 'API_ENDPOINT={api_endpoint}' >> frontend/.env")
+os.system(f"echo 'BUCKET_NAME={bucket_name}' >> frontend/.env")
+
+# Upload images to S3
+logging.warning("Actualizando imagenes en s3")
+s3 = boto3.client("s3")
+for image in ["bruno.png", "dante.png", "bruno-prize.png", "dante-prize.png"]:
+    s3_name = f"{hashlib.sha256(image.encode()).hexdigest()}.png"
+    s3.upload_file(
+        f"s3/{image}", bucket_name, s3_name, ExtraArgs={"ACL": "public-read"}
+    )
 
 # Build frontend APK
 if FRONTEND:
     logging.warning("Construyendo frontend")
-    os.system("cd frontend && expo eject && eas build -p android")
+    os.system(
+        "cd frontend && expo eject -p android && EAS_NO_VCS=1 eas build -p android --profile preview"
+    )
     # Finalmente, hacer adb install xxx.apk

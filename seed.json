@@ -14,7 +14,7 @@
         "bruno": {"S": "True"},
         "dante": {"S": "False"},
         "points": {"N": "200"}
-    },  
+    },
     {
         "PK": {"S": "TASKS"},
         "SK": {"S": "02"},
@@ -102,5 +102,25 @@
         "bruno": {"S": "False"},
         "dante": {"S": "True"},
         "points": {"N": "200"}
+    },
+    {
+        "PK": {"S": "TASKS"},
+        "SK": {"S": "13"},
+        "name": {"S": "Tener la casa ordenada a las 20.30"},
+        "bruno": {"S": "True"},
+        "dante": {"S": "True"},
+        "points": {"N": "100"}
+    },
+    {
+      "PK": {"S": "PROFILE"},
+      "SK": {"S": "bruno#prize"},
+      "name": {"S": "Beyblade Geist Fafnir"},
+      "points": {"N": "20000"}
+    },
+    {
+      "PK": {"S": "PROFILE"},
+      "SK": {"S": "dante#prize"},
+      "name": {"S": "Carta Altaria + ?"},
+      "points": {"N": "9000"}
     }
 ]

@@ -1,6 +1,7 @@
 import boto3
 import os
 import json
+import hashlib
 from datetime import datetime
 
 ddb = boto3.client("dynamodb", region_name=os.environ["AWS_REGION"])
@@ -25,9 +26,15 @@ def _get_profiles():
             profiles[profile] = {}
         if item_type == "points":
             profiles[profile]["points"] = int(item["points"]["N"])
+            profiles[profile]["image_filename"] = (
+                hashlib.sha256(f"{profile}.png".encode()).hexdigest() + ".png"
+            )
         elif item_type == "prize":
             prize = {"name": item["name"]["S"], "points": int(item["points"]["N"])}
             profiles[profile]["prize"] = prize
+            profiles[profile]["prize"]["image_filename"] = (
+                hashlib.sha256(f"{profile}-prize.png".encode()).hexdigest() + ".png"
+            )
     return profiles
 
 

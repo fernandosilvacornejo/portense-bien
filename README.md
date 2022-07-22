@@ -19,3 +19,9 @@ Backend y Frontend de aplicacion mobile para premiar a los niños por portarse b
 ```
 expo start --clear
 ```
+
+# Debugging
+
+Conectar el celular via usb y ejecutar `adb logcat`
+
+En caso de caída inmediata tras iniciar la aplicación, revisar acá: https://github.com/lottie-react-native/lottie-react-native#android-specific-problems
