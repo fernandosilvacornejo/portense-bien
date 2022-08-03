@@ -63,6 +63,10 @@ functions:
           path: /event
           method: post
           private: true
+      - http:
+          path: /reset
+          method: post
+          private: true
 resources:
   Resources:
     BackendTable:

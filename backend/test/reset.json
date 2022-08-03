@@ -1,6 +1,6 @@
 {
-  "resource": "/event",
-  "path": "/event",
+  "resource": "/reset",
+  "path": "/reset",
   "httpMethod": "POST",
   "headers": "None",
   "multiValueHeaders": "None",
@@ -10,11 +10,11 @@
   "stageVariables": "None",
   "requestContext": {
     "resourceId": "6f7qgx",
-    "resourcePath": "/event",
-    "httpMethod": "GET",
+    "resourcePath": "/reset",
+    "httpMethod": "POST",
     "extendedRequestId": "T_6CkFVZoAMFxnw=",
     "requestTime": "20/Jun/2022:02:09:33 +0000",
-    "path": "/event",
+    "path": "/reset",
     "accountId": "531967293683",
     "protocol": "HTTP/1.1",
     "stage": "test-invoke-stage",
@@ -40,6 +40,6 @@
     "domainName": "testPrefix.testDomainName",
     "apiId": "220reh1j01"
   },
-  "body": "{\"task\": \"Hacer la cama\", \"points\": \"100\", \"profile\": \"bruno\"}",
+  "body": "",
   "isBase64Encoded": "False"
 }

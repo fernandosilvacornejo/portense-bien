@@ -1,5 +1,4 @@
-from lib.get import get
-from lib.post import post
+from lib.tasks import get, post, reset
 import os
 
 
@@ -7,11 +6,13 @@ def handler(event, context):
     """Funcion principal."""
     data = ""
     try:
-        method = event["httpMethod"]
-        if method == "GET":
+        path = event["path"]
+        if path == "/data":
             data = get()
-        elif method == "POST":
+        elif path == "/event":
             data = post(event["body"])
+        elif path == "/reset":
+            data = reset()
     except Exception as e:
         if os.environ.get("ENVIRONMENT") == "test":
             raise
